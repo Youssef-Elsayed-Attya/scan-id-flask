@@ -3,3 +3,4 @@ ultralytics
 regex
 flask
 opencv-python
+gunicorn
