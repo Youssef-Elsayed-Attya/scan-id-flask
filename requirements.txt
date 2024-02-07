@@ -1,5 +1,5 @@
 pytesseract
 ultralytics
-re
+regex
 flask
 opencv-python
