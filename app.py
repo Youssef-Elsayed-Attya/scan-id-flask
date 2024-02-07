@@ -1,11 +1,6 @@
 from flask import  Flask , request , render_template,url_for,jsonify
-from tensorflow.keras.models import load_model
-from  PIL import Image
-import numpy as np
 import pytesseract
-import torch
 import cv2
-import matplotlib.pyplot as plt
 from ultralytics import YOLO
 import re
 
@@ -72,31 +67,6 @@ def crop(img):
 
 app= Flask(__name__)
 
-# def preproessing(image):
-#     image=Image.open(image)
-#     image=image.resize((150,150))
-#     image_arr=np.array(image.convert('RGB'))
-#     image_arr.shape=(1,150,150,3)
-#     return image_arr
-#
-#
-# classes =['Building','Forest','Glacier','Mountain','Sea','Street']
-# model=load_model("Intel_Image_Classification.h5")
-
-
-#
-# @app.route('/predict',methods=['GET','POST'])
-# def predict():
-#     print('run code')
-#     if request.method=='POST':
-#         print('waiting to load image...')
-#         image=request.files['fileup']
-#         image_arr=preproessing(image)
-#         result=model.predict(image_arr)
-#         index=np.argmax(result)
-#         prediction=classes[index]
-
-
 @app.route('/')
 def index():
 
@@ -124,8 +94,6 @@ def api():
 
 
 
-
-
 @app.route('/predict', methods=['GET', 'POST'])
 def predict():
     print("run code")
@@ -150,12 +118,5 @@ def predict():
         return render_template('index.html',appName="Intel Image Classification")
 
 if __name__=='__main__':
-    # print('cropped image')
-    # pre_image = preprocess_image(cropped_image)
-    # print('done preprocess')
-    # result = extract_text_from_image(pre_image)
-    # print(result)
-    # result = find_and_format_id_in_text(result)
-    # print(result)
     app.run(debug=True)
 
