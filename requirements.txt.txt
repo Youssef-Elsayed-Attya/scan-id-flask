@@ -1,0 +1,5 @@
+pytesseract
+ultralytics
+re
+flask
+opencv-python
