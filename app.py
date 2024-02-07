@@ -96,6 +96,13 @@ app= Flask(__name__)
 #         index=np.argmax(result)
 #         prediction=classes[index]
 
+
+@app.route('/')
+def index():
+
+    return render_template('index.html', appName="Intel Image Classification")
+
+
 @app.route('/predictApi',methods=['POST'])
 def api():
     try:
@@ -114,6 +121,33 @@ def api():
         return jsonify({'prediction': result})
     except:
         return jsonify({'error':'error try again'})
+
+
+
+
+
+@app.route('/predict', methods=['GET', 'POST'])
+def predict():
+    print("run code")
+    if request.method == 'POST':
+        # Get the image from post request
+        print("image loading....")
+        image = request.files['fileup']
+        image = cv2.imread(image)
+        print('there is image')
+        cropped_image = crop(image)
+        print('cropped image')
+        pre_image = preprocess_image(cropped_image)
+        print('done preprocess')
+        result = extract_text_from_image(pre_image)
+        print(result)
+        prediction = find_and_format_id_in_text(result)
+
+        print(prediction)
+
+        return render_template('index.html', prediction=prediction, image='static/IMG/', appName="Intel Image Classification")
+    else:
+        return render_template('index.html',appName="Intel Image Classification")
 
 if __name__=='__main__':
     # print('cropped image')
