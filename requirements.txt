@@ -4,3 +4,4 @@ regex
 flask
 opencv-python
 gunicorn
+gunicorn==20.0.4
