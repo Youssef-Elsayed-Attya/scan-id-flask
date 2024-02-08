@@ -3,7 +3,8 @@ ultralytics
 regex
 flask
 opencv
+opencv-python
 cv2
 gunicorn
 numpy
-protobuf
+tensorflow
