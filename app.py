@@ -4,7 +4,6 @@ import cv2
 from ultralytics import YOLO
 import re
 
-
 ###################################################################################
 def preprocess_image(image, alpha=1.1, beta=35):
     h, w = image.shape[:2]

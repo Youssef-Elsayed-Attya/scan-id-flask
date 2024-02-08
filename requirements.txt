@@ -2,6 +2,8 @@ pytesseract
 ultralytics
 regex
 flask
-opencv-python
+opencv
+cv2
 gunicorn
-gunicorn==20.0.4
+numpy
+protobuf==3.20.*
