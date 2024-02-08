@@ -3,7 +3,6 @@ ultralytics
 regex
 flask
 opencv-python
-cv2
 gunicorn
 numpy
 tensorflow
