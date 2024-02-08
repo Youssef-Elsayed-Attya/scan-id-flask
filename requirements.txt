@@ -2,7 +2,6 @@ pytesseract
 ultralytics
 regex
 flask
-opencv
 opencv-python
 cv2
 gunicorn
