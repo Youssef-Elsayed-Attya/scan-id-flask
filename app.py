@@ -1,6 +1,6 @@
 from flask import  Flask , request , render_template,url_for,jsonify
+from PIL import Image, ImageEnhance
 import pytesseract
-import cv2
 from ultralytics import YOLO
 import re
 
@@ -10,13 +10,21 @@ def preprocess_image(image, alpha=1.1, beta=35):
     new_width = 1024
     ratio = new_width / float(w)
     new_height = int(h * ratio)
+    wpercent = (new_width / float(image.size[0]))
 
+    hsize = int((float(image.size[1]) * float(wpercent)))
     # تغيير حجم الصورة
-    resized_image = cv2.resize(image, (new_width, new_height))
+    # resized_image = cv2.resize(image, (new_width, new_height))
+    resized_image = image.resize((new_width, hsize), Image.ANTIALIAS)
+
 
     # تحويل الصورة إلى رمادية وتعزيزها
-    gray_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
-    enhanced_image = cv2.convertScaleAbs(gray_image, alpha=alpha, beta=beta)
+    #gray_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
+    gray_image = resized_image.convert('L')
+
+    #enhanced_image = cv2.convertScaleAbs(gray_image, alpha=alpha, beta=beta)
+    enhanced_image = ImageEnhance.Brightness(gray_image).enhance(alpha)
+    enhanced_image = ImageEnhance.Contrast(enhanced_image).enhance(beta)
     return enhanced_image
 
 
@@ -69,7 +77,7 @@ app= Flask(__name__)
 @app.route('/')
 def index():
 
-    return render_template('index.html', appName="Intel Image Classification")
+    return render_template('index.html', appName="Id scanner")
 
 
 @app.route('/predictApi',methods=['POST'])
@@ -78,7 +86,8 @@ def api():
         if 'fileup' not in request.files:
             return 'please try again, no image found'
         image = request.files.get('fileup')
-        image=cv2.imread(image)
+        #image=cv2.imread(image)
+        image = Image.open(image)
         print('there is image')
         cropped_image = crop(image)
         print('cropped image')
@@ -100,7 +109,8 @@ def predict():
         # Get the image from post request
         print("image loading....")
         image = request.files['fileup']
-        image = cv2.imread(image)
+        #image = cv2.imread(image)
+        image = Image.open(image)
         print('there is image')
         cropped_image = crop(image)
         print('cropped image')
