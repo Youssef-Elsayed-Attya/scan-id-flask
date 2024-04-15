@@ -2,7 +2,7 @@ pytesseract
 ultralytics
 regex
 flask
-opencv-python
+Pillow
 gunicorn
 numpy
 tensorflow
