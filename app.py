@@ -7,25 +7,12 @@ import numpy as np
 
 ###################################################################################
 def preprocess_image(image, alpha=1.1, beta=35):
-    # Get the width and height of the image
     w, h = image.size
-
-    # Define the new width for resizing
     new_width = 1024
-
-    # Calculate the ratio for resizing
     ratio = new_width / float(w)
-
-    # Calculate the new height based on the ratio
     new_height = int(h * ratio)
-
-    # Resize the image
     resized_image = image.resize((new_width, new_height), Image.ANTIALIAS)
-
-    # Convert the image to grayscale
     gray_image = resized_image.convert('L')
-
-    # Enhance the brightness and contrast of the image
     enhanced_image = ImageEnhance.Brightness(gray_image).enhance(alpha)
     enhanced_image = ImageEnhance.Contrast(enhanced_image).enhance(beta)
 
@@ -35,13 +22,6 @@ def preprocess_image(image, alpha=1.1, beta=35):
 def extract_text_from_image(image):
     return pytesseract.image_to_string(image)
 
-# معالجة الصورة المقصوصة واستخراج النص
-# processed_image = preprocess_image(cropped_image)
-# extracted_text = extract_text_from_image(processed_image)
-
-# عرض الصورة المقصوصة والنص المستخرج
-# show_image(processed_image, title='Processed Cropped Image')
-# print("Extracted Text:\n", extracted_text)
 
 ###################################################################################
 
@@ -69,12 +49,6 @@ def crop(img):
 
     return cropped_img
 
-#cropped_image = crop('photo_2023-11-10_22-20-08.jpg')
-
-# إذا كنت تريد عرض الصورة المقصوصة يمكنك استخدام الكود التالي:
-#plt.imshow(cv2.cvtColor(cropped_image, cv2.COLOR_BGR2RGB))
-#plt.title('Cropped Image')
-#plt.show()
 ######################################################################################
 
 
