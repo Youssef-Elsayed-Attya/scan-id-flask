@@ -3,6 +3,7 @@ ultralytics
 regex
 flask
 Pillow
+numpy
 gunicorn
 numpy
 tensorflow

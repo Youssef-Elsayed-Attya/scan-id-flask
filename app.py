@@ -3,28 +3,32 @@ from PIL import Image, ImageEnhance
 import pytesseract
 from ultralytics import YOLO
 import re
+import numpy as np
 
 ###################################################################################
 def preprocess_image(image, alpha=1.1, beta=35):
-    h, w = image.shape[:2]
+    # Get the width and height of the image
+    w, h = image.size
+
+    # Define the new width for resizing
     new_width = 1024
+
+    # Calculate the ratio for resizing
     ratio = new_width / float(w)
+
+    # Calculate the new height based on the ratio
     new_height = int(h * ratio)
-    wpercent = (new_width / float(image.size[0]))
 
-    hsize = int((float(image.size[1]) * float(wpercent)))
-    # تغيير حجم الصورة
-    # resized_image = cv2.resize(image, (new_width, new_height))
-    resized_image = image.resize((new_width, hsize), Image.ANTIALIAS)
+    # Resize the image
+    resized_image = image.resize((new_width, new_height), Image.ANTIALIAS)
 
-
-    # تحويل الصورة إلى رمادية وتعزيزها
-    #gray_image = cv2.cvtColor(resized_image, cv2.COLOR_BGR2GRAY)
+    # Convert the image to grayscale
     gray_image = resized_image.convert('L')
 
-    #enhanced_image = cv2.convertScaleAbs(gray_image, alpha=alpha, beta=beta)
+    # Enhance the brightness and contrast of the image
     enhanced_image = ImageEnhance.Brightness(gray_image).enhance(alpha)
     enhanced_image = ImageEnhance.Contrast(enhanced_image).enhance(beta)
+
     return enhanced_image
 
 
@@ -59,7 +63,10 @@ def crop(img):
     current_coordinates = [round(x) for x in box.xyxy.flatten().tolist()]
     print(current_coordinates)
     (x1, y1, x2, y2) = current_coordinates
-    cropped_img = img[y1:y2, x1:x2]
+    img_array = np.array(img)
+    cropped_img_array = img_array[y1:y2, x1:x2]
+    cropped_img = Image.fromarray(cropped_img_array)
+
     return cropped_img
 
 #cropped_image = crop('photo_2023-11-10_22-20-08.jpg')
